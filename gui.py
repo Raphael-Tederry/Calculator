@@ -1,4 +1,5 @@
 import tkinter as tk
+import testbar as tb
 
 """----------------------------------------------------------CONSTANTS----------------------------------------"""
 WINDOW_SIZE = '375x667'
@@ -59,9 +60,10 @@ class Calculator:
     def create_display_frame(self):
         frame = tk.Frame(self.window, height=221, bg=LIGHT_GRAY)  # bg = background color
 
-        # expand − When set to true, widget expands to fill any space not otherwise used in widget's parent.
-        # fill − Determines whether widget fills any extra space allocated to it by the packer,
-        # or keeps its own minimal dimensions: NONE (default), X (fill only horizontally), Y (fill only vertically), or BOTH (fill both horizontally and vertically).
+        # expand − When set to true, widget expands to fill any space not otherwise used in widget's parent. fill −
+        # Determines whether widget fills any extra space allocated to it by the packer, or keeps its own minimal
+        # dimensions: NONE (default), X (fill only horizontally), Y (fill only vertically), or BOTH (fill both-
+        #                       -horizontally and vertically).
         frame.pack(expand=True, fill="both")
         return frame
 
@@ -75,7 +77,8 @@ class Calculator:
     #           ------------------------------------- CREATING ---------------------------
     def bind_keys(self):
         """
-        binding the equals(enter) and numbers in self.digits and the operator in self.operations to their corresponding keyboard
+        binding the equals(enter) and numbers in self.digits and the operator in self. operations to their
+        corresponding keyboard
         """
 
         self.window.bind("<Return>", lambda event: self.evaluate())
@@ -143,11 +146,6 @@ class Calculator:
         button = tk.Button(self.buttons_frame, text="\u221ax", bg=OFF_WHITE, fg=LABEL_COLOR,
                            font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.sqrt)
         button.grid(row=0, column=3, columnspan=1, sticky=tk.NSEW)
-
-    def create_clear_button(self):
-        button = tk.Button(self.buttons_frame, text="C", bg=OFF_WHITE, fg=LABEL_COLOR,
-                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.clear)
-        button.grid(row=0, column=1, columnspan=1, sticky=tk.NSEW)
 
     def create_equals_button(self):
         button = tk.Button(self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR,
@@ -217,6 +215,7 @@ class Calculator:
         self.total_expression += self.current_expression
         self.update_total_label()
         try:
+            tb.eval(self.total_expression)
             self.current_expression = str(eval(self.total_expression))  # TODO: replace it with bar proj
             self.total_expression = ""
 
