@@ -151,7 +151,7 @@ class Calculator:
 
     def create_equals_button(self):
         button = tk.Button(self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR,
-                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.evaluate)
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.evaluate_bar)# command=self.evaluate)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
     #           ---------------------------------- SPECIAL BUTTONS------------------------
@@ -200,13 +200,26 @@ class Calculator:
     #           ---------------------------------- LABELS STUFF------------------------
 
     #           ---------------------------------- MATH STUFF------------------------
-    def evaluate(self):  # TODO: need to clean hafter the Error
+    def evaluate(self):  # TODO: need to clean after the Error
         self.total_expression += self.current_expression
         self.update_total_label()
         try:
             self.current_expression = str(eval(self.total_expression))  # replace it with bar proj
 
             self.total_expression = ""
+        except Exception as e:
+            print(type(e))
+            self.current_expression = "Error"
+        finally:
+            self.update_label()
+
+    def evaluate_bar(self):  # TODO: need to clean after the Error
+        self.total_expression += self.current_expression
+        self.update_total_label()
+        try:
+            self.current_expression = str(eval(self.total_expression))  # TODO: replace it with bar proj
+            self.total_expression = ""
+
         except Exception as e:
             print(type(e))
             self.current_expression = "Error"
