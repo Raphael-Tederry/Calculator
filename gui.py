@@ -1,5 +1,5 @@
 import tkinter as tk
-import testbar as tb
+# import testbar as tb
 
 """----------------------------------------------------------CONSTANTS----------------------------------------"""
 WINDOW_SIZE = '375x667'
@@ -215,7 +215,7 @@ class Calculator:
         self.total_expression += self.current_expression
         self.update_total_label()
         try:
-            tb.eval(self.total_expression)
+            # tb.eval(self.total_expression)
             self.current_expression = str(eval(self.total_expression))  # TODO: replace it with bar proj
             self.total_expression = ""
 
