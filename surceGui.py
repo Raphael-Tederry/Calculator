@@ -23,9 +23,8 @@ class Calculator:
         self.window.resizable(0, 0)  # disabling resizing the window
         self.window.title(APP_NAME)  # title of the window
 
-        self.total_expression = ""  # the upper label
-        self.current_expression = ""  # what's writen in the main label after taking actions
-        self.label = ""  # the main label
+        self.total_expression = ""
+        self.current_expression = ""
         self.display_frame = self.create_display_frame()
 
         self.total_label, self.label = self.create_display_label()
@@ -53,43 +52,27 @@ class Calculator:
 
         self.bind_keys()
 
-    # ======================================================== INITIATIONS STUFF ==============================
+    def add_to_expression(self, value):
+        self.current_expression += str(value)
+        self.update_label()
 
-    #           ------------------------------------- FRAMES -----------------------------
-    def create_display_frame(self):
-        frame = tk.Frame(self.window, height=221, bg=LIGHT_GRAY)  # bg = background color
+    def append_operator(self, operator):
+        # when a new operation is received we move all the numbers to the total and give a clean slide
+        self.current_expression += operator
+        self.total_expression += self.current_expression
+        self.current_expression = ""
+        self.update_total_label()
+        self.update_label()
 
-        # expand − When set to true, widget expands to fill any space not otherwise used in widget's parent.
-        # fill − Determines whether widget fills any extra space allocated to it by the packer,
-        # or keeps its own minimal dimensions: NONE (default), X (fill only horizontally), Y (fill only vertically), or BOTH (fill both horizontally and vertically).
-        frame.pack(expand=True, fill="both")
-        return frame
-
-    def create_buttons_frame(self):
-        frame = tk.Frame(self.window)
-        frame.pack(expand=True, fill="both")
-        return frame
-
-    #           ------------------------------------- FRAMES -----------------------------
-
-    #           ------------------------------------- CREATING ---------------------------
     def bind_keys(self):
-        """
-        binding the equals(enter) and numbers in self.digits and the operator in self.operations to their corresponding keyboard
-        """
-
         self.window.bind("<Return>", lambda event: self.evaluate())
         for key in self.digits:
             self.window.bind(str(key), lambda event, digit=key: self.add_to_expression(digit))
 
         for key in self.operations:
-            self.window.bind(key, lambda event, operator=key: self.append_operator(operator))
+            self.window.bind(key, lambda event, operator=key: self.add_to_expression(operator))
 
     def create_display_label(self):
-        """
-        creating the upper(total_expression) and main(label) labels
-        :return: total_label, label
-        """
         total_label = tk.Label(self.display_frame, text=self.total_expression, anchor=tk.E,
                                bg=LIGHT_GRAY, fg=LABEL_COLOR, padx=24,
                                font=SMALL_FONT_STYLE)  # anchor=tk.E(= east) # fg color for text
@@ -102,9 +85,22 @@ class Calculator:
 
         return total_label, label
 
-    def create_special_buttons(self):
+    def create_display_frame(self):
+        frame = tk.Frame(self.window, height=221, bg=LIGHT_GRAY)  # bg = background color
+        """
+        expand − When set to true, widget expands to fill any space not otherwise used in widget's parent.
+        fill − Determines whether widget fills any extra space allocated to it by the packer,
+        or keeps its own minimal dimensions: NONE (default), X (fill only horizontally), Y (fill only vertically), or BOTH (fill both horizontally and vertically).
+        """
+        frame.pack(expand=True, fill="both")
+        return frame
 
-        # TODO: add the functions and bracers fetchers
+    def create_buttons_frame(self):
+        frame = tk.Frame(self.window)
+        frame.pack(expand=True, fill="both")
+        return frame
+
+    def create_special_buttons(self):
         self.create_clear_button()
         self.create_equals_button()
         self.create_square_button()
@@ -126,9 +122,12 @@ class Calculator:
             button.grid(row=current_row, column=4, sticky=tk.NSEW)
             current_row += 1
 
-    #           ------------------------------------- CREATING ---------------------------
+    def clear(self):
+        self.current_expression = ""
+        self.total_expression = ""
+        self.update_total_label()
+        self.update_label()
 
-    #           ---------------------------------- SPECIAL BUTTONS------------------------
     def create_clear_button(self):
         button = tk.Button(self.buttons_frame, text="C", bg=OFF_WHITE, fg=LABEL_COLOR,
                            font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.clear)
@@ -154,53 +153,7 @@ class Calculator:
                            font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.evaluate)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
-    #           ---------------------------------- SPECIAL BUTTONS------------------------
-
-    # ======================================================== INITIATIONS STUFF ==============================
-
-    # ======================================================== ACTIVE STUFF ===================================
-
-    #           ---------------------------------- LABELS STUFF------------------------
-    def add_to_expression(self, value):
-        """
-        adding value to the lower label (current_expression)
-        :param value: numbers
-        """
-        self.current_expression += str(value)
-        self.update_label()
-
-    def append_operator(self, operator):
-        """
-        adding operator to current_expression then move all the numbers to the upper label (total_label) and give a clean slide
-        :param operator: operator
-        """
-        # TODO: check that we don't add two operator together
-        #       check that we don't add an operator without numbers first
-        self.current_expression += operator
-        self.total_expression += self.current_expression
-        self.current_expression = ""
-        self.update_total_label()
-        self.update_label()
-
-    def clear(self):
-        self.current_expression = ""
-        self.total_expression = ""
-        self.update_total_label()
-        self.update_label()
-
-    def update_total_label(self):
-        expression = self.total_expression
-        for operator, symbol in self.operations.items():
-            expression = expression.replace(operator, f"{symbol}")  # change the display from * to x ...
-        self.total_label.config(text=expression)
-
-    def update_label(self):
-        self.label.config(text=self.current_expression[:11])  # limited to the 11 first character
-
-    #           ---------------------------------- LABELS STUFF------------------------
-
-    #           ---------------------------------- MATH STUFF------------------------
-    def evaluate(self):  # TODO: need to clean hafter the Error
+    def evaluate(self):  # ---------------------------------------------------need to clean hafter the Error
         self.total_expression += self.current_expression
         self.update_total_label()
         try:
@@ -221,12 +174,17 @@ class Calculator:
         self.current_expression = str(eval(f"{self.current_expression}**0.5"))
         self.update_label()
 
-    #           ---------------------------------- MATH STUFF------------------------
+    def update_total_label(self):
+        expression = self.total_expression
+        for operator, symbol in self.operations.items():
+            expression = expression.replace(operator, f"{symbol}")  # change the display from * to x ...
+        self.total_label.config(text=expression)
 
+    def update_label(self):
+        self.label.config(text=self.current_expression[:11])  # limited to the 11 first character
 
     def run(self):
         self.window.mainloop()
-    # ======================================================== ACTIVE STUFF ===================================
 
 
 if __name__ == '__main__':
