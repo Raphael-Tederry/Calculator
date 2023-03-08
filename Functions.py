@@ -2,36 +2,45 @@ import math
 
 #functions for the Calculator:
 
-def multiply(x, y):
-    sum = x * y
-    return str(x) + ' x ' + str(y) + ' = ' + str(sum)
-
-sum = multiply(10, 2)
-
-print(sum)
+def multiply(str_x, str_y):
+        sum = str_x * str_y
+        return str(sum)
 
 
-def divide(x, y):
-    sum = x / y
-    return str(x) + ' / ' + str(y) + ' = ' + str(sum)
+def divide(str_x, str_y):
+
+    if str_y == 0:
+        return 'Error'
+    else:
+        sum = str_x / str_y
+    return  str(sum)
 
 
-def plus(x, y):
-    sum = x + y
-    return str(x) + ' + ' + str(y) + ' = ' + str(sum)
+
+def plus(str_x, str_y):
+    sum = str_x + str_y
+    return  str(sum)
 
 
-def minus(x, y):
-    sum = x - y
-    return str(x) + ' - ' + str(y) + ' = ' + str(sum)
+def minus(str_x, str_y):
+    sum = str_x - str_y
+    return  str(sum)
 
 
-def exponent(x, y):
-    sum = x ** y
-    return str(x) + ' ** ' + str(y) +  ' = ' + str(sum)
+def exponent(str_x, str_y):
+    sum = str_x ** str_y
+    return  str(sum)
 
-def root(x):
-    return  math.sqrt(x)
+def root(str_x):
+    if str_x < 0:
+        return 'Error'
+    return  math.sqrt(str_x)
+
+
+if __name__ == "__main__":
+
+    r = root(10)
+    print(r)
 
 
 
