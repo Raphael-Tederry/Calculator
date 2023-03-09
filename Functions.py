@@ -37,9 +37,9 @@ def minus(str_x, str_y):
         return "Math Error"
 
 
-def exponent(str_x, str_y):
-    if str_x.isnumeric() and str_y.isnumeric():
-        return math.pow(str_x, str_y)
+def exponent(str_x):
+    if str_x.isnumeric():
+        return math.pow(str_x)
     elif isfloat(str_x):
         return str(sum(float(str_x)))
     else:
