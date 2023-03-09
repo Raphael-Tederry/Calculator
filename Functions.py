@@ -67,7 +67,7 @@ def isfloat(num):
         return False
 if __name__ == "__main__":
 
-    r = exponent('10, 2')
+    r = exponent('10', '5')
     print(r)
 
 
