@@ -51,6 +51,17 @@ def root(str_x):
         return 'Math Error'
 
 
+
+
+
+
+
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
 if __name__ == "__main__":
 
     r = root('10')

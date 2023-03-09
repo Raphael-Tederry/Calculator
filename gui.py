@@ -230,7 +230,7 @@ class Calculator:
         self.update_label()
 
     def sqrt(self):  # square ROOT
-        print(self.current_expression)
+        # print(self.current_expression)
         self.current_expression = str(f.root(self.current_expression))
         self.update_label()
 
