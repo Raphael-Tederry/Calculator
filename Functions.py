@@ -39,14 +39,17 @@ def minus(str_x, str_y):
 
 def exponent(str_x, str_y):
     if str_x.isnumeric() and str_y.isnumeric():
-        sum = int(str_x) ** int(str_y)
-        return str(sum)
+        return math.pow(str_x, str_y)
+    elif isfloat(str_x):
+        return str(sum(float(str_x)))
     else:
         return "Math Error"
 
 def root(str_x):
     if str_x.isnumeric() and int(str_x) >= 0:
         return str(math.sqrt(int(str_x)))
+    elif isfloat(str_x) and float(str_x) >=0:
+        return str(math.sqrt(float(str_x)))
     else:
         return 'Math Error'
 
