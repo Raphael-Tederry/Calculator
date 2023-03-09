@@ -1,5 +1,5 @@
 import tkinter as tk
-# import testbar as tb
+import Functions as f
 
 """----------------------------------------------------------CONSTANTS----------------------------------------"""
 WINDOW_SIZE = '375x667'
@@ -226,11 +226,12 @@ class Calculator:
             self.update_label()
 
     def square(self):
-        self.current_expression = str(eval(f"{self.current_expression}**2"))
+        self.current_expression = str(f.exponent(self.current_expression, '2'))
         self.update_label()
 
     def sqrt(self):  # square ROOT
-        self.current_expression = str(eval(f"{self.current_expression}**0.5"))
+        print(self.current_expression)
+        self.current_expression = str(f.root(self.current_expression))
         self.update_label()
 
     #           ---------------------------------- MATH STUFF------------------------
