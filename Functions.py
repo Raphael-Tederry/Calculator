@@ -16,7 +16,13 @@ def divide(str_x, str_y):
          sum = int(str_x) / int(str_y)
          return str(sum)
     else:
-       return 'Math Error'
+        try:
+            if float(str_y) != 0:
+             return str(float(str_x) / (str_y))
+            else:
+                return 'Math Error'
+        except ValueError:
+         return 'Math Error'
 
 
 
@@ -26,7 +32,10 @@ def plus(str_x, str_y):
         sum = int(str_x) + int(str_y)
         return str(sum)
     else:
-        return "Math Error"
+        try:
+            return str(float(str_x) + (str_y))
+        except ValueError:
+         return "Math Error"
 
 
 def minus(str_x, str_y):
@@ -34,16 +43,20 @@ def minus(str_x, str_y):
         sum = int(str_x) - int(str_y)
         return str(sum)
     else:
-        return "Math Error"
+        try:
+            return str(float(str_x) - float(str_y))
+        except ValueError:
+            return "Math Error"
 
 
 def exponent(str_x, str_y):
     if str_x.isnumeric() and str_y.isnumeric():
-        return str(math.pow(int(str_x, str_y)))
-    elif isfloat(str_x, str_y):
-        return str(math.pow(float(str_x, str_y)))
+        return str(math.pow(int(str_x), int(str_y)))
     else:
-        return "Math Error"
+        try:
+            return str(math.pow(float(str_x), float(str_y)))
+        except ValueError:
+            return "Math Error"
 
 def root(str_x):
     if str_x.isnumeric() and int(str_x) >= 0:
@@ -67,7 +80,7 @@ def isfloat(num):
         return False
 if __name__ == "__main__":
 
-    r = exponent('10', '5')
+    r = exponent('5', '5')
     print(r)
 
 
