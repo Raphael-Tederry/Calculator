@@ -41,12 +41,16 @@ class Calculator:
             "/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+",
         }
 
+        self.var_x = ''
+        self.var_y = ''
+
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.rowconfigure(0, weight=1)
 
         for i in range(1, 5):  # setting the number of row and col so the buttons fill the window
             self.buttons_frame.rowconfigure(i, weight=1)
             self.buttons_frame.columnconfigure(i, weight=1)
+        self.buttons_frame.columnconfigure(5, weight=1)
 
         self.create_digits_buttons()
         self.create_operator_buttons()
@@ -81,7 +85,7 @@ class Calculator:
         corresponding keyboard
         """
 
-        self.window.bind("<Return>", lambda event: self.evaluate())
+        self.window.bind("<Return>", lambda event: self.evaluate_bar())  # lambda event: self.evaluate()
         for key in self.digits:
             self.window.bind(str(key), lambda event, digit=key: self.add_to_expression(digit))
 
@@ -112,6 +116,9 @@ class Calculator:
         self.create_equals_button()
         self.create_square_button()
         self.create_sqrt_button()
+
+        self.create_set_var_x_button()
+        self.create_use_var_x_button()
 
     def create_digits_buttons(self):
         for digit, grid_value in self.digits.items():  # digits={key:items}
@@ -149,8 +156,18 @@ class Calculator:
 
     def create_equals_button(self):
         button = tk.Button(self.buttons_frame, text="=", bg=LIGHT_BLUE, fg=LABEL_COLOR,
-                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.evaluate_bar)# command=self.evaluate)
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.evaluate_bar)  # command=self.evaluate)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
+
+    def create_set_var_x_button(self):
+        button = tk.Button(self.buttons_frame, text='=>X', bg=OFF_WHITE, fg=LABEL_COLOR,
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.set_var_x)
+        button.grid(row=1, column=5, columnspan=1, sticky=tk.NSEW)
+
+    def create_use_var_x_button(self):
+        button = tk.Button(self.buttons_frame, text='X', bg=OFF_WHITE, fg=LABEL_COLOR,
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.use_var_x)
+        button.grid(row=2, column=5, columnspan=1, sticky=tk.NSEW)
 
     #           ---------------------------------- SPECIAL BUTTONS------------------------
 
@@ -234,8 +251,26 @@ class Calculator:
         self.current_expression = str(f.root(self.current_expression))
         self.update_label()
 
-    #           ---------------------------------- MATH STUFF------------------------
+    def set_var_x(self):
+        """
+        called when the set_var_x button is pressed,
+        and we move the value in the lower label(current_expression) into the x variable(var_x)
+        :return:
+        """
+        self.var_x = self.current_expression
+        self.current_expression = ''
+        self.update_label()
 
+    def use_var_x(self):
+        """
+        called when the use_var_x button is pressed,
+        and we move the value in the x variable(var_x) into the lower label(current_expression)
+        :return:
+        """
+        self.current_expression += self.var_x
+        self.update_label()
+
+    #           ---------------------------------- MATH STUFF------------------------
 
     def run(self):
         self.window.mainloop()
