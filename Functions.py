@@ -7,7 +7,10 @@ def multiply(str_x, str_y):
         sum = int(str_x) * int(str_y)
         return str(sum)
     else:
-        return "Invalid input"
+        try:
+            return str(float(str_x) * float(str_y))
+        except ValueError:
+            return "Math Error"
 
 
 def divide(str_x, str_y):
@@ -18,7 +21,7 @@ def divide(str_x, str_y):
     else:
         try:
             if float(str_y) != 0:
-             return str(float(str_x) / (str_y))
+             return str(float(str_x) / float(str_y))
             else:
                 return 'Math Error'
         except ValueError:
@@ -33,7 +36,7 @@ def plus(str_x, str_y):
         return str(sum)
     else:
         try:
-            return str(float(str_x) + (str_y))
+            return str(float(str_x) + float(str_y))
         except ValueError:
          return "Math Error"
 
@@ -78,15 +81,12 @@ def isfloat(num):
         return True
     except ValueError:
         return False
+
 if __name__ == "__main__":
 
-    r = exponent('5', '5')
+    r = multiply('0.9', '0.1')
     print(r)
 
-    # --------raph test
-    # p = plus('0.9', '0.1')    # crashed the code
-    # d = divide('9', '3.0')  # crashed the code
-    # m = multiply('0.5', '2.0')    # returns "Invalid input" instead of "2.5"
 
 
 
