@@ -42,7 +42,6 @@ class Calculator:
         }
 
         self.var_x = ''
-        self.var_y = ''
 
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.rowconfigure(0, weight=1)
