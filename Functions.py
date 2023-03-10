@@ -83,6 +83,11 @@ if __name__ == "__main__":
     r = exponent('5', '5')
     print(r)
 
+    # --------raph test
+    # p = plus('0.9', '0.1')    # crashed the code
+    # d = divide('9', '3.0')  # crashed the code
+    # m = multiply('0.5', '2.0')    # returns "Invalid input" instead of "2.5"
+
 
 
 
