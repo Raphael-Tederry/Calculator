@@ -165,7 +165,7 @@ class Calculator:
 
     def create_use_var_x_button(self):
         button = tk.Button(self.buttons_frame, text='X', bg=OFF_WHITE, fg=LABEL_COLOR,
-                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.use_var_x)
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=lambda x='X': self.add_to_expression(x))
         button.grid(row=2, column=5, columnspan=1, sticky=tk.NSEW)
 
     #           ---------------------------------- SPECIAL BUTTONS------------------------
@@ -203,6 +203,7 @@ class Calculator:
         self.update_label()
 
     def update_total_label(self):
+        """change the label string from what the code see to what the calculator show(i.e: * -> x)"""
         expression = self.total_expression
         for operator, symbol in self.operations.items():
             expression = expression.replace(operator, f"{symbol}")  # change the display from * to x ...
@@ -212,6 +213,16 @@ class Calculator:
         self.label.config(text=self.current_expression[:11])  # limited to the 11 first character
 
     #           ---------------------------------- LABELS STUFF------------------------
+
+    def set_var_x(self):
+        """
+        called when the set_var_x button is pressed,
+        and we move the value in the lower label(current_expression) into the x variable(var_x)
+        :return:
+        """
+        self.var_x = self.current_expression
+        self.current_expression = ''
+        self.update_label()
 
     #           ---------------------------------- MATH STUFF------------------------
     def evaluate(self):  # TODO: need to clean after the Error
@@ -232,41 +243,23 @@ class Calculator:
         self.update_total_label()
         try:
             # tb.eval(self.total_expression)
-            self.current_expression = str(eval(self.total_expression))  # TODO: replace it with bar proj
+            equation = self.total_expression.replace('X', self.var_x)
+            self.current_expression = str(eval(equation))  # TODO: replace it with bar proj
             self.total_expression = ""
 
         except Exception as e:
-            print(type(e))
-            self.current_expression = "Error"
+            self.current_expression = str(e)
         finally:
             self.update_label()
 
     def square(self):
-        self.current_expression = str(f.exponent(self.current_expression, '2'))
+        equation = self.current_expression.replace('X', self.var_x)
+        self.current_expression = str(f.exponent(equation, '2'))
         self.update_label()
 
     def sqrt(self):  # square ROOT
-        # print(self.current_expression)
-        self.current_expression = str(f.root(self.current_expression))
-        self.update_label()
-
-    def set_var_x(self):
-        """
-        called when the set_var_x button is pressed,
-        and we move the value in the lower label(current_expression) into the x variable(var_x)
-        :return:
-        """
-        self.var_x = self.current_expression
-        self.current_expression = ''
-        self.update_label()
-
-    def use_var_x(self):
-        """
-        called when the use_var_x button is pressed,
-        and we move the value in the x variable(var_x) into the lower label(current_expression)
-        :return:
-        """
-        self.current_expression += self.var_x
+        equation = self.current_expression.replace('X', self.var_x)
+        self.current_expression = str(f.root(equation))
         self.update_label()
 
     #           ---------------------------------- MATH STUFF------------------------
