@@ -15,6 +15,12 @@ def math_stuff(snum1, snum2):
 
 if __name__ == '__main__':
     # math_stuff('09+88')
-    s = '66+99'
-    ls = s.split('+')
+    s = '01234X+7X89'
+    b = '99'
+    while True:
+        if "X" in s:
+            s = s.replace('X', b)
+            break
+
+    print(s)
 
