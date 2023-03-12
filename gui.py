@@ -2,7 +2,7 @@ import tkinter as tk
 import Functions as f
 
 """----------------------------------------------------------CONSTANTS----------------------------------------"""
-WINDOW_SIZE = '375x667'
+WINDOW_SIZE = '575x667'
 APP_NAME = 'PROIECTON'
 
 LARGE_FONT_STYLE = ("Arial", 40, "bold")
@@ -42,6 +42,7 @@ class Calculator:
         }
 
         self.var_x = ''
+        self.polynom_info = {'lvl': -1, 'a': '', 'b': '', 'c': ''}  # level of exponent
 
         self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.rowconfigure(0, weight=1)
@@ -118,6 +119,7 @@ class Calculator:
 
         self.create_set_var_x_button()
         self.create_use_var_x_button()
+        self.create_polynomial_equation_button()
 
     def create_digits_buttons(self):
         for digit, grid_value in self.digits.items():  # digits={key:items}
@@ -168,6 +170,11 @@ class Calculator:
                            font=DEFAULT_FONT_STYLE, borderwidth=0, command=lambda x='X': self.add_to_expression(x))
         button.grid(row=2, column=5, columnspan=1, sticky=tk.NSEW)
 
+    def create_polynomial_equation_button(self):
+        button = tk.Button(self.buttons_frame, text='ax\u00b2 + bx + c', bg=OFF_WHITE, fg=LABEL_COLOR,
+                           font=DEFAULT_FONT_STYLE, borderwidth=0, command=self.get_polynomial)
+        button.grid(row=3, column=5, columnspan=1, sticky=tk.NSEW)
+
     #           ---------------------------------- SPECIAL BUTTONS------------------------
 
     # ======================================================== INITIATIONS STUFF ==============================
@@ -197,6 +204,7 @@ class Calculator:
         self.update_label()
 
     def clear(self):
+        self.polynom_info = {'lvl': -1, 'a': '', 'b': '', 'c': ''}
         self.current_expression = ""
         self.total_expression = ""
         self.update_total_label()
@@ -214,6 +222,7 @@ class Calculator:
 
     #           ---------------------------------- LABELS STUFF------------------------
 
+    #           ---------------------------------- LABELS special display--------------
     def set_var_x(self):
         """
         called when the set_var_x button is pressed,
@@ -223,6 +232,12 @@ class Calculator:
         self.var_x = self.current_expression
         self.current_expression = ''
         self.update_label()
+
+    def get_polynomial(self):
+        self.polynom_info['lvl'] = 3  # just started
+        self.evaluate_bar()  # becas the input will come after we press equal
+
+    #           ---------------------------------- LABELS special display--------------
 
     #           ---------------------------------- MATH STUFF------------------------
     def evaluate(self):  # TODO: need to clean after the Error
@@ -239,18 +254,43 @@ class Calculator:
             self.update_label()
 
     def evaluate_bar(self):  # TODO: need to clean after the Error
-        self.total_expression += self.current_expression
-        self.update_total_label()
-        try:
-            # tb.eval(self.total_expression)
-            equation = self.total_expression.replace('X', self.var_x)
-            self.current_expression = str(f.my_eval(equation))  # bar version of eval
-            self.total_expression = ""
+        if self.polynom_info['lvl'] == -1:  # we are not in the polynom
+            self.total_expression += self.current_expression
+            self.update_total_label()
+            try:
+                # tb.eval(self.total_expression)
+                equation = self.total_expression.replace('X', self.var_x)
+                self.current_expression = str(f.my_eval(equation))  # bar version of eval
+                self.total_expression = ""
 
-        except Exception as e:
-            self.current_expression = str(e)
-        finally:
+            except Exception as e:
+                self.current_expression = str(e)
+            finally:
+                self.update_label()
+        else:  # we are in the polynom  #TODO: create anothe function for this
+            match self.polynom_info['lvl']:
+                case 3:  # we will receive a
+                    self.total_expression = f"a= , b= , c="
+                    self.current_expression = 'a= '
+                case 2:  # we will receive b
+                    self.polynom_info['a'] = self.current_expression[3:]
+                    self.total_expression = f"a= {self.polynom_info['a']}, b= , c= "
+                    self.current_expression = 'b= '
+                case 1:  # we will receive c
+                    self.polynom_info['b'] = self.current_expression[3:]
+                    self.total_expression = f"a= {self.polynom_info['a']}, b= {self.polynom_info['b']}, c= "
+                    self.current_expression = 'c= '
+                case 0:  # we recived everything and now is time to send the equation to the rghit function
+                    self.polynom_info['c'] = self.current_expression[3:]
+                    self.total_expression = f"a= {self.polynom_info['a']}, b= {self.polynom_info['b']}," \
+                                            f" c= {self.polynom_info['c']}"
+                    self.current_expression = "x1= , x2= "
+
             self.update_label()
+            self.update_total_label()
+            print(self.polynom_info['lvl'])
+            self.polynom_info['lvl'] -= 1
+            print(self.polynom_info['lvl'])
 
     def square(self):
         equation = self.current_expression.replace('X', self.var_x)

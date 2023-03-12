@@ -4,23 +4,15 @@ def eval(equation):
 
 
 def math_stuff(snum1, snum2):
-    print(snum2.isnumeric())
-    int(snum2)
+    match snum1:
+        case 1: pass
 
-    if snum1 > 1:
-        pass
-    if snum1 < 0:
-        pass
-    else:pass
 
 if __name__ == '__main__':
     # math_stuff('09+88')
-    s = '01234X+7X89'
-    b = '99'
-    while True:
-        if "X" in s:
-            s = s.replace('X', b)
-            break
+    d = 'a= 12345'
 
-    print(s)
+
+    print(d[3:])
+
 
