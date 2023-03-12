@@ -11,7 +11,7 @@ def multiply(str_x, str_y):
             result = float(str_x) * float(str_y)
             return str(int(result)) if isinstance(result, int) else str(round(result, 6))
         except ValueError:
-            return "Math Error"
+            return 'Math Error'
 
 
 def divide(str_x, str_y):
