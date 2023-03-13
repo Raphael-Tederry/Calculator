@@ -32,7 +32,11 @@ if __name__ == '__main__':
 
     reform_paragraph(sentence)
 
+    ss = '3.7'
+    s = float(ss)
 
+
+    print(s)
 
 """
     s = ''

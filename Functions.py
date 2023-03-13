@@ -77,9 +77,6 @@ def root(str_x):
 
 
 
-
-
-
 def isfloat(num):
     try:
         float(num)
