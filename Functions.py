@@ -3,27 +3,18 @@ import math
 #functions for the Calculator:
 
 def multiply(str_x, str_y):
-    if str_x.isdigit() and str_y.isdigit():
-        result = int(str_x) * int(str_y)
-        return str(result) if isinstance(result, int) else str(round(result, 6))
-    else:
         try:
             result = float(str_x) * float(str_y)
-            return str(int(result)) if isinstance(result, int) else str(round(result, 6))
+            return str(int(result)) if result - int(result) == 0 else str(round(result, 6))
         except ValueError:
             return 'Math Error'
 
 
 def divide(str_x, str_y):
-
-    if str_x.isnumeric() and str_y.isnumeric() and int(str_y) != 0 :
-        result = int(str_x) / int(str_y)
-        return str(result) if isinstance(result, int) else str(round(result, 6))
-    else:
         try:
             if float(str_y) != 0:
                 result = float(str_x) / float(str_y)
-                return str(int(result)) if isinstance(result, int) else str(round(result, 6))
+                return str(int(result)) if result - int(result) == 0 else str(round(result, 6))
         except ValueError:
             return 'Math Error'
 
@@ -36,15 +27,10 @@ def plus(str_x, str_y):
     except ValueError:
         return "Math Error"
 
-
 def minus(str_x, str_y):
-    if str_x.isdigit() and str_y.isdigit():
-        result = int(str_x) - int(str_y)
-        return str(result) if isinstance(result, int) else str(round(result, 6))
-    else:
         try:
             result = float(str_x) - float(str_y)
-            return str(int(result)) if isinstance(result, int) else str(round(result, 6))
+            return str(int(result)) if result - int(result) == 0 else str(round(result, 6))
         except ValueError:
             return "Math Error"
 
@@ -77,6 +63,9 @@ def root(str_x):
 
 
 
+
+
+
 def isfloat(num):
     try:
         float(num)
@@ -86,7 +75,7 @@ def isfloat(num):
 
 if __name__ == "__main__":
 
-    r = plus('5a2', '2')
+    r = root('25.5')
     print(r)
 
 
