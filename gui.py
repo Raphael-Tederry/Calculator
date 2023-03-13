@@ -263,7 +263,7 @@ class Calculator:
             try:
                 # tb.eval(self.total_expression)
                 equation = self.total_expression.replace('X', self.var_x)
-                self.current_expression = str(f.my_eval(equation))  # bar version of eval
+                self.current_expression = str(noF.my_eval(equation))  # bar version of eval
                 self.total_expression = ""
 
             except Exception as e:

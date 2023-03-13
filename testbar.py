@@ -18,8 +18,8 @@ def my_eval(str1):
     for operator, func in d.items():
         if operator in str1:
             a, b = str1.split(operator)
-            print(func(a, b))
-    return eval(str1)
+            return(func(a, b))
+    return 'problem' # eval(str1)
 
 
 if __name__ == '__main__':
