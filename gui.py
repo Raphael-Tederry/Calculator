@@ -1,5 +1,6 @@
 import tkinter as tk
 import Functions as f
+import testbar as noF
 
 """----------------------------------------------------------CONSTANTS----------------------------------------"""
 WINDOW_SIZE = '575x667'
@@ -189,6 +190,7 @@ class Calculator:
         """
         self.current_expression += str(value)
         self.update_label()
+        self.update_total_label()
 
     def append_operator(self, operator):
         """
@@ -211,14 +213,14 @@ class Calculator:
         self.update_label()
 
     def update_total_label(self):
-        """change the label string from what the code see to what the calculator show(i.e: * -> x)"""
+        """change the upper label string from what the code see to what the calculator show(i.e: * -> x)"""
         expression = self.total_expression
         for operator, symbol in self.operations.items():
             expression = expression.replace(operator, f"{symbol}")  # change the display from * to x ...
         self.total_label.config(text=expression)
 
     def update_label(self):
-        self.label.config(text=self.current_expression[:11])  # limited to the 11 first character
+        self.label.config(text=self.current_expression[:19])  # limited to the 11 first character
 
     #           ---------------------------------- LABELS STUFF------------------------
 
@@ -256,6 +258,7 @@ class Calculator:
     def evaluate_bar(self):  # TODO: need to clean after the Error
         if self.polynom_info['lvl'] == -1:  # we are not in the polynom
             self.total_expression += self.current_expression
+            print(self.total_expression)
             self.update_total_label()
             try:
                 # tb.eval(self.total_expression)
@@ -267,7 +270,7 @@ class Calculator:
                 self.current_expression = str(e)
             finally:
                 self.update_label()
-        else:  # we are in the polynom  #TODO: create anothe function for this
+        else:  # we are in the polynom  #TODO: create another function for this
             match self.polynom_info['lvl']:
                 case 3:  # we will receive a
                     self.total_expression = f"a= , b= , c="
@@ -288,9 +291,11 @@ class Calculator:
 
             self.update_label()
             self.update_total_label()
-            print(self.polynom_info['lvl'])
+
+            if self.polynom_info['lvl'] == 0:
+                self.total_expression, self.current_expression = '', ''
             self.polynom_info['lvl'] -= 1
-            print(self.polynom_info['lvl'])
+
 
     def square(self):
         equation = self.current_expression.replace('X', self.var_x)
